@@ -14,6 +14,7 @@ public class AuthorizationServerProperties {
     private String issuerUrl;
     private String introspectionEndpoint;
     private String authenticationSuccessUrl;
+    private String savedRequestUrlStartsWith;
     private String customHandlerHeaderName;
     private String resetPasswordEndpoint;
     private long authorizationTtl;

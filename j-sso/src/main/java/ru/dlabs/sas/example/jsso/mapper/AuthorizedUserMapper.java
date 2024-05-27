@@ -1,5 +1,7 @@
 package ru.dlabs.sas.example.jsso.mapper;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -8,9 +10,6 @@ import ru.dlabs.sas.example.jsso.dao.entity.RoleEntity;
 import ru.dlabs.sas.example.jsso.dao.entity.UserEntity;
 import ru.dlabs.sas.example.jsso.dto.AuthorizedUser;
 import ru.dlabs.sas.example.jsso.type.AuthProvider;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @UtilityClass
 public class AuthorizedUserMapper {
@@ -23,8 +22,23 @@ public class AuthorizedUserMapper {
                 .lastName(entity.getLastName())
                 .middleName(entity.getMiddleName())
                 .birthday(entity.getBirthday())
-                .avatarUrl(entity.getAvatarUrl())
+                .avatarFileId(entity.getAvatarFileId())
+                .registrationDate(entity.getCreationDate().toLocalDate())
+                .admin(entity.getAdmin())
+                .superuser(entity.getSuperuser())
                 .build();
+    }
+
+    public AuthorizedUser reload(AuthorizedUser authorizedUser, UserEntity entity) {
+        authorizedUser.setLastName(entity.getLastName());
+        authorizedUser.setFirstName(entity.getFirstName());
+        authorizedUser.setMiddleName(entity.getMiddleName());
+        authorizedUser.setBirthday(entity.getBirthday());
+        authorizedUser.setRegistrationDate(entity.getCreationDate().toLocalDate());
+        authorizedUser.setAvatarFileId(entity.getAvatarFileId());
+        authorizedUser.setAdmin(entity.getAdmin());
+        authorizedUser.setSuperuser(entity.getSuperuser());
+        return authorizedUser;
     }
 
     public List<GrantedAuthority> getUserAuthorities(UserEntity entity) {

@@ -1,4 +1,4 @@
-package ru.dlabs.sas.example.jsso.service;
+package ru.dlabs.sas.example.jsso.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

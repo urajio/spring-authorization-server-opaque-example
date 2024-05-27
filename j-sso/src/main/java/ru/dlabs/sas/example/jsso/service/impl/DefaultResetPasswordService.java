@@ -1,4 +1,4 @@
-package ru.dlabs.sas.example.jsso.service;
+package ru.dlabs.sas.example.jsso.service.impl;
 
 import com.google.common.collect.ImmutableMap;
 import jakarta.servlet.http.HttpServletRequest;
@@ -6,12 +6,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
+import ru.dlabs.sas.example.jsso.components.ConfirmationStore;
 import ru.dlabs.sas.example.jsso.components.OTPStore;
-import ru.dlabs.sas.example.jsso.components.ResetPasswordStore;
 import ru.dlabs.sas.example.jsso.config.security.AuthorizationServerProperties;
 import ru.dlabs.sas.example.jsso.dao.entity.UserEntity;
 import ru.dlabs.sas.example.jsso.exception.InformationException;
 import ru.dlabs.sas.example.jsso.exception.ResetPasswordException;
+import ru.dlabs.sas.example.jsso.service.MessageService;
+import ru.dlabs.sas.example.jsso.service.ResetPasswordService;
+import ru.dlabs.sas.example.jsso.service.UserService;
 import ru.dlabs.sas.example.jsso.utils.CryptoUtils;
 import ru.dlabs71.library.email.DEmailSender;
 
@@ -23,7 +26,7 @@ public class DefaultResetPasswordService implements ResetPasswordService {
 
     private final DEmailSender emailSender;
     private final OTPStore otpStore;
-    private final ResetPasswordStore resetPasswordStore;
+    private final ConfirmationStore resetPasswordStore;
     private final AuthorizationServerProperties authorizationServerProperties;
     private final UserService userService;
     private final MessageService messageService;
@@ -38,7 +41,7 @@ public class DefaultResetPasswordService implements ResetPasswordService {
         OTPStore.GenerationResult generationResult = otpStore.generate(response);
         try {
             resetPasswordStore.save(
-                new ResetPasswordStore.StoreItem(email, generationResult.otp()),
+                new ConfirmationStore.StoreItem(email, generationResult.otp(), null),
                 generationResult.sessionId()
             );
         } catch (Exception e) {
@@ -66,7 +69,7 @@ public class DefaultResetPasswordService implements ResetPasswordService {
         // по идентификатору по OTPStore получаем данные из resetPasswordStore. Там находиться email пользователя.
         // Он был сохранён на первом шаге.
         String sessionId = otpStore.getSessionId(request);
-        ResetPasswordStore.StoreItem storeItem;
+        ConfirmationStore.StoreItem storeItem;
         try {
             storeItem = resetPasswordStore.take(sessionId);
         } catch (Exception e) {
@@ -120,7 +123,7 @@ public class DefaultResetPasswordService implements ResetPasswordService {
         String resetPasswordSessionId = request.getHeader(SESSION_ID_HEADER);
 
         // Пытаемся получить данные из resetPasswordStore по значению из заголовка
-        ResetPasswordStore.StoreItem storeItem;
+        ConfirmationStore.StoreItem storeItem;
         try {
             storeItem = resetPasswordStore.take(resetPasswordSessionId);
         } catch (Exception e) {

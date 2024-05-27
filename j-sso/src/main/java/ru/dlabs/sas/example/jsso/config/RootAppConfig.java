@@ -20,6 +20,8 @@ import org.springframework.core.Ordered;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -31,12 +33,13 @@ import org.springframework.web.filter.CorsFilter;
 public class RootAppConfig {
 
     private final AppProperties.CorsProperties corsProperties;
+    private final AppProperties.RestClientsConfig restClientsConfig;
     private final AppProperties.SwaggerProperties swaggerProperties;
     private final BuildProperties buildProperties;
     private final RedisConnectionFactory redisConnectionFactory;
 
     @Bean
-    public FilterRegistrationBean<CorsFilter> corsFilter() {
+    public FilterRegistrationBean<CorsFilter> corsFilterRegistrationBean() {
         log.debug("CREATE CORS FILTER");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         corsProperties.getConfigs().forEach(configProps -> {
@@ -110,23 +113,6 @@ public class RootAppConfig {
             );
     }
 
-    // Данный метод добавления глобального параметра запроса не работает, так как Swagger запрещает в явную указывать
-    // следующие заголовки: Accept, Content-Type, Authorization
-//    @Bean
-//    @ConditionalOnProperty(value = "springdoc.auth.auth-header-enabled", havingValue = "true")
-//    public OperationCustomizer customGlobalHeaders() {
-//        return (Operation operation, HandlerMethod handlerMethod) -> {
-//            Parameter authorizationHeader = new Parameter()
-//                    .in(ParameterIn.HEADER.toString())
-//                    .schema(new StringSchema())
-//                    .name("Authorization")
-//                    .description("Authorization Header (Bearer or Basic)")
-//                    .required(false);
-//            operation.addParametersItem(authorizationHeader);
-//            return operation;
-//        };
-//    }
-
     /**
      * Бин необходимый для работы с сообщениями хранимыми в .properties файлах.
      */
@@ -141,5 +127,15 @@ public class RootAppConfig {
     @Bean
     public StringRedisTemplate stringRedisTemplate() {
         return new StringRedisTemplate(redisConnectionFactory);
+    }
+
+    @Bean
+    public RestClient serviceRestClient() {
+        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+        clientHttpRequestFactory.setConnectTimeout(restClientsConfig.getServiceClientConnectionTimeout());
+        clientHttpRequestFactory.setConnectionRequestTimeout(restClientsConfig.getServiceClientRequestTimeout());
+        return RestClient.builder()
+            .requestFactory(clientHttpRequestFactory)
+            .build();
     }
 }

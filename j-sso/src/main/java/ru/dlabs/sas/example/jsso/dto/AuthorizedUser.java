@@ -1,15 +1,14 @@
 package ru.dlabs.sas.example.jsso.dto;
 
+import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Map;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-
-import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Map;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -20,7 +19,10 @@ public class AuthorizedUser extends User implements OAuth2User {
     private String lastName;
     private String middleName;
     private LocalDate birthday;
-    private String avatarUrl;
+    private UUID avatarFileId;
+    private LocalDate registrationDate;
+    private boolean admin;
+    private boolean superuser;
 
     private Map<String, Object> oauthAttributes;
 
@@ -29,31 +31,43 @@ public class AuthorizedUser extends User implements OAuth2User {
     }
 
     public AuthorizedUser(
-            String username,
-            String password,
-            boolean enabled,
-            boolean accountNonExpired,
-            boolean credentialsNonExpired,
-            boolean accountNonLocked,
-            Collection<? extends GrantedAuthority> authorities
+        String username,
+        String password,
+        boolean enabled,
+        boolean accountNonExpired,
+        boolean credentialsNonExpired,
+        boolean accountNonLocked,
+        Collection<? extends GrantedAuthority> authorities
     ) {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
     }
 
-    public static AuthorizedUserBuilder builder(String username, String password, Collection<? extends GrantedAuthority> authorities) {
+    public static AuthorizedUserBuilder builder(
+        String username,
+        String password,
+        Collection<? extends GrantedAuthority> authorities
+    ) {
         return new AuthorizedUserBuilder(username, password, authorities);
     }
 
     public static AuthorizedUserBuilder builder(
-            String username,
-            String password,
-            boolean enabled,
-            boolean accountNonExpired,
-            boolean credentialsNonExpired,
-            boolean accountNonLocked,
-            Collection<? extends GrantedAuthority> authorities
+        String username,
+        String password,
+        boolean enabled,
+        boolean accountNonExpired,
+        boolean credentialsNonExpired,
+        boolean accountNonLocked,
+        Collection<? extends GrantedAuthority> authorities
     ) {
-        return new AuthorizedUserBuilder(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+        return new AuthorizedUserBuilder(
+            username,
+            password,
+            enabled,
+            accountNonExpired,
+            credentialsNonExpired,
+            accountNonLocked,
+            authorities
+        );
     }
 
     public String getEmail() {
@@ -82,15 +96,23 @@ public class AuthorizedUser extends User implements OAuth2User {
         }
 
         AuthorizedUserBuilder(
-                String username,
-                String password,
-                boolean enabled,
-                boolean accountNonExpired,
-                boolean credentialsNonExpired,
-                boolean accountNonLocked,
-                Collection<? extends GrantedAuthority> authorities
+            String username,
+            String password,
+            boolean enabled,
+            boolean accountNonExpired,
+            boolean credentialsNonExpired,
+            boolean accountNonLocked,
+            Collection<? extends GrantedAuthority> authorities
         ) {
-            this.entity = new AuthorizedUser(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+            this.entity = new AuthorizedUser(
+                username,
+                password,
+                enabled,
+                accountNonExpired,
+                credentialsNonExpired,
+                accountNonLocked,
+                authorities
+            );
         }
 
         public AuthorizedUserBuilder id(UUID id) {
@@ -118,13 +140,28 @@ public class AuthorizedUser extends User implements OAuth2User {
             return this;
         }
 
-        public AuthorizedUserBuilder avatarUrl(String avatarUrl) {
-            this.entity.setAvatarUrl(avatarUrl);
+        public AuthorizedUserBuilder avatarFileId(UUID avatarFileId) {
+            this.entity.setAvatarFileId(avatarFileId);
             return this;
         }
 
         public AuthorizedUserBuilder oauthAttributes(Map<String, Object> userSasInfo) {
             this.entity.setOauthAttributes(userSasInfo);
+            return this;
+        }
+
+        public AuthorizedUserBuilder registrationDate(LocalDate registrationDate) {
+            this.entity.setRegistrationDate(registrationDate);
+            return this;
+        }
+
+        public AuthorizedUserBuilder admin(Boolean admin) {
+            this.entity.setAdmin(Boolean.TRUE.equals(admin));
+            return this;
+        }
+
+        public AuthorizedUserBuilder superuser(Boolean superuser) {
+            this.entity.setSuperuser(Boolean.TRUE.equals(superuser));
             return this;
         }
 

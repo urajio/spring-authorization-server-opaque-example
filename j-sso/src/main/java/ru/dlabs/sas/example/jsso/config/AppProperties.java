@@ -1,17 +1,42 @@
 package ru.dlabs.sas.example.jsso.config;
 
 import jakarta.annotation.PostConstruct;
+import java.util.Collections;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.Assert;
-
-import java.util.Collections;
-import java.util.List;
+import ru.dlabs71.library.email.property.SmtpProperties;
 
 @Configuration
 public class AppProperties {
+
+    @Getter
+    @Setter
+    @Configuration
+    @ConfigurationProperties(prefix = "d-email")
+    public static class EmailProperties extends SmtpProperties {
+
+    }
+
+    @Getter
+    @Setter
+    @Configuration
+    @ConfigurationProperties(prefix = "file-store")
+    public static class FileStoreConfig {
+        private String basePath;
+    }
+
+    @Getter
+    @Setter
+    @Configuration
+    @ConfigurationProperties(prefix = "rest-clients")
+    public static class RestClientsConfig {
+        private int serviceClientConnectionTimeout;
+        private int serviceClientRequestTimeout;
+    }
 
     @Getter
     @Setter
@@ -51,7 +76,7 @@ public class AppProperties {
         private AuthTypesConfig authTypes;
         private AuthOauthConfig authOauth;
 
-        public static record AuthTypesConfig(
+        public record AuthTypesConfig(
                 Boolean authHeaderEnabled,
                 Boolean clientCredentialsEnabled,
                 Boolean authorizationCodeEnabled
@@ -59,7 +84,7 @@ public class AppProperties {
 
         }
 
-        public static record AuthOauthConfig(
+        public record AuthOauthConfig(
                 String tokenUrl,
                 String authorizationUrl,
                 String refreshUrl

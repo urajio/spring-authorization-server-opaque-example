@@ -1,0 +1,50 @@
+spring:
+  data:
+    redis:
+      client-type: lettuce
+      database: 0
+      host: localhost
+      port: 6379
+      password: qwerty12345678
+      lettuce:
+        pool:
+          max-active: 16
+          max-idle: 8
+  liquibase:
+    enabled: false
+    change-log: classpath:database/db.changelog.yaml
+    contexts: prod, dev
+  datasource:
+    url: "jdbc:postgresql://localhost:5435/j-sso"
+    username: "user"
+    password: "user"
+    driver-class-name: "org.postgresql.Driver"
+    hikari:
+      connection-timeout: 30000
+      connection-test-query: select 1
+      maximum-pool-size: 10
+      minimum-idle: 10
+      initialization-fail-timeout: 1
+      leak-detection-threshold: 0
+      pool-name: "HikariPool-j-sso"
+      register-mbeans: true
+  jpa:
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+
+---
+spring:
+  config:
+    activate:
+      on-profile: production
+  liquibase:
+    contexts: prod
+
+---
+spring:
+  config:
+    activate:
+      on-profile: development
+  liquibase:
+    contexts: prod, dev

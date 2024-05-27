@@ -1,4 +1,4 @@
-package ru.dlabs.sas.example.jsso.service;
+package ru.dlabs.sas.example.jsso.service.security;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;

@@ -22,13 +22,15 @@ public class RoleEntity extends VersionedBusinessEntity<String> {
     private String code;
     @Column(name = "role_description", nullable = false)
     private String description;
+    @Column(name = "system_code", nullable = false)
+    private String systemCode;
     @Column(name = "active")
     private Boolean active;
 
     @ManyToMany
     @JoinTable(schema = "sso", name = "role_authorities",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "authority_id")
+        joinColumns = @JoinColumn(name = "role_id"),
+        inverseJoinColumns = @JoinColumn(name = "authority_id")
     )
     public List<AuthorityEntity> authorities;
 

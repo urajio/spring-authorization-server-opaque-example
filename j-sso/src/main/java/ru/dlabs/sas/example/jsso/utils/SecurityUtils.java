@@ -9,6 +9,9 @@ import ru.dlabs.sas.example.jsso.exception.ServiceException;
 @UtilityClass
 public class SecurityUtils {
 
+    /**
+     * Получить информацию об авторизованном пользователе из контекста безопасности.
+     */
     public AuthorizedUser getAuthUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {

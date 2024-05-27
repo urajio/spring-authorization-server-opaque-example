@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.dlabs.sas.example.jsso.dao.entity.SystemOauth2Client;
 
 @Repository
-public interface SystemOauth2ClientRepository extends JpaRepository<SystemOauth2Client, Long> {
+public interface SystemOauth2ClientRepository extends JpaRepository<SystemOauth2Client, String> {
 
     SystemOauth2Client getByClientId(String clientId);
 }

@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+import ru.dlabs.sas.example.jsso.type.AuthProvider;
 
 @Getter
 @Builder
@@ -20,10 +21,14 @@ public class AuthorizedUserDto {
     private String lastName;
     private String middleName;
     private LocalDate birthday;
-    private String avatarUrl;
+    private UUID avatarFileId;
     private String username;
     private String email;
     private List<String> authorities;
+    private LocalDate registrationDate;
+    private AuthProvider authProvider;
+    private boolean admin;
+    private boolean superuser;
 
     public static AuthorizedUserDto build(AuthorizedUser authorizedUser) {
         if (authorizedUser == null) {
@@ -43,10 +48,13 @@ public class AuthorizedUserDto {
             .lastName(authorizedUser.getLastName())
             .middleName(authorizedUser.getMiddleName())
             .birthday(authorizedUser.getBirthday())
-            .avatarUrl(authorizedUser.getAvatarUrl())
+            .avatarFileId(authorizedUser.getAvatarFileId())
             .username(authorizedUser.getUsername())
             .email(authorizedUser.getEmail())
             .authorities(authorities)
+            .admin(authorizedUser.isAdmin())
+            .superuser(authorizedUser.isSuperuser())
+            .registrationDate(authorizedUser.getRegistrationDate())
             .build();
     }
 }

@@ -1,4 +1,4 @@
-package ru.dlabs.sas.example.jsso.service;
+package ru.dlabs.sas.example.jsso.service.impl;
 
 import com.google.common.collect.ImmutableMap;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +11,9 @@ import ru.dlabs.sas.example.jsso.components.RegistrationStore;
 import ru.dlabs.sas.example.jsso.dto.RegistrationDto;
 import ru.dlabs.sas.example.jsso.exception.InformationException;
 import ru.dlabs.sas.example.jsso.exception.RegistrationException;
+import ru.dlabs.sas.example.jsso.service.MessageService;
+import ru.dlabs.sas.example.jsso.service.RegistrationService;
+import ru.dlabs.sas.example.jsso.service.UserService;
 import ru.dlabs71.library.email.DEmailSender;
 
 @Service
