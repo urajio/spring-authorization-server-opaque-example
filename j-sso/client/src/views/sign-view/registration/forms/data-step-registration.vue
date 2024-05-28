@@ -33,12 +33,13 @@
             label="Отчество"
             name="middleName"
         />
-        <j-date-picker
+        <j-date-picker-flow
             v-model="dataForm.birthday"
             append-inner-icon="calendar_month"
             class="mb-1"
             label="Дата рождения"
             name="birthday"
+            :year-range="yearRange"
         />
         <v-btn class="submit-btn" form="data-step-registration" type="submit">
             Далее
@@ -99,6 +100,9 @@
     let submit = () => {
         emit('next', dataForm);
     };
+
+    // computed
+    const yearRange = computed(() => [1950, new Date().getFullYear() - 4]);
 </script>
 
 

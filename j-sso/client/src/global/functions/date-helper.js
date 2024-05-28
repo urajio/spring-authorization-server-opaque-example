@@ -8,12 +8,22 @@ export function formatDate(date) {
 }
 
 export function formatDateFromStr(date) {
+    if (!date) {
+        return null;
+    }
     return moment(date).format('DD.MM.YYYY')
+}
+
+export function formatDateTimeFromStr(date) {
+    if (!date) {
+        return null;
+    }
+    return moment(date).format('DD.MM.YYYY HH:mm');
 }
 
 export function beautyFormatDate(date) {
     if (!date) {
         return null;
     }
-    return moment(date).format('D MMMM YYYY года')
+    return moment(date).locale('ru').format('D MMMM YYYY года')
 }
