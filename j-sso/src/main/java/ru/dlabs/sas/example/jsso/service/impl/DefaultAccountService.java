@@ -26,10 +26,10 @@ import ru.dlabs.sas.example.jsso.mapper.UserDtoMapper;
 import ru.dlabs.sas.example.jsso.service.AccountService;
 import ru.dlabs.sas.example.jsso.service.FileStoreService;
 import ru.dlabs.sas.example.jsso.service.MessageService;
-import ru.dlabs.sas.example.jsso.service.security.SecurityService;
 import ru.dlabs.sas.example.jsso.service.UserClientService;
 import ru.dlabs.sas.example.jsso.service.UserEventService;
 import ru.dlabs.sas.example.jsso.service.UserTokenService;
+import ru.dlabs.sas.example.jsso.service.security.SecurityService;
 import ru.dlabs.sas.example.jsso.utils.HttpUtils;
 import ru.dlabs.sas.example.jsso.utils.SecurityUtils;
 
@@ -102,6 +102,9 @@ public class DefaultAccountService implements AccountService {
     @Transactional(readOnly = true)
     public ResponseEntity<byte[]> getAvatarCurrentUser() {
         AuthorizedUser authorizedUser = SecurityUtils.getAuthUser();
+        if (authorizedUser.getAvatarFileId() == null) {
+            return null;
+        }
         FileStoreDto fileStoreDto = fileStoreService.getById(authorizedUser.getAvatarFileId());
         if (fileStoreDto == null) {
             return ResponseEntity.badRequest().build();

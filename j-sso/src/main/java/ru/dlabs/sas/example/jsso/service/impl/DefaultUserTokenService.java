@@ -7,14 +7,14 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.dlabs.sas.example.jsso.dao.entity.SystemOauth2Client;
+import ru.dlabs.sas.example.jsso.dao.repository.SystemOAuth2ClientRepository;
 import ru.dlabs.sas.example.jsso.dto.AuthorizationInfo;
 import ru.dlabs.sas.example.jsso.dto.AuthorizedUser;
-import ru.dlabs.sas.example.jsso.dao.entity.SystemOauth2Client;
-import ru.dlabs.sas.example.jsso.dao.repository.SystemOauth2ClientRepository;
 import ru.dlabs.sas.example.jsso.dto.UserTokenInfoDto;
-import ru.dlabs.sas.example.jsso.service.security.RedisOAuth2AuthorizationService;
 import ru.dlabs.sas.example.jsso.service.ReferenceService;
 import ru.dlabs.sas.example.jsso.service.UserTokenService;
+import ru.dlabs.sas.example.jsso.service.security.RedisOAuth2AuthorizationService;
 import ru.dlabs.sas.example.jsso.utils.SecurityUtils;
 
 /**
@@ -30,13 +30,13 @@ import ru.dlabs.sas.example.jsso.utils.SecurityUtils;
 public class DefaultUserTokenService implements UserTokenService {
 
     private final RedisOAuth2AuthorizationService authorizationService;
-    private final SystemOauth2ClientRepository systemOauth2ClientRepository;
+    private final SystemOAuth2ClientRepository systemOauth2ClientRepository;
     private final ReferenceService referenceService;
 
     public DefaultUserTokenService(
-            OAuth2AuthorizationService authorizationService,
-            SystemOauth2ClientRepository systemOauth2ClientRepository,
-            ReferenceService referenceService
+        OAuth2AuthorizationService authorizationService,
+        SystemOAuth2ClientRepository systemOauth2ClientRepository,
+        ReferenceService referenceService
     ) {
         this.authorizationService = (RedisOAuth2AuthorizationService) authorizationService;
         this.systemOauth2ClientRepository = systemOauth2ClientRepository;
@@ -49,9 +49,9 @@ public class DefaultUserTokenService implements UserTokenService {
         AuthorizedUser authorizedUser = SecurityUtils.getAuthUser();
         List<AuthorizationInfo> userTokens = authorizationService.findInfoByUserId(authorizedUser.getId());
         return userTokens.stream()
-                .map(this::mapToDto)
-                .sorted(Comparator.comparing(UserTokenInfoDto::getLastRefreshDate).reversed())
-                .toList();
+            .map(this::mapToDto)
+            .sorted(Comparator.comparing(UserTokenInfoDto::getLastRefreshDate).reversed())
+            .toList();
     }
 
     public UserTokenInfoDto mapToDto(AuthorizationInfo entity) {
@@ -59,15 +59,15 @@ public class DefaultUserTokenService implements UserTokenService {
         AuthorizationGrantType grantType = entity.getAuthorizationGrantType();
 
         return UserTokenInfoDto.builder()
-                .authorizationId(entity.getAuthorizationId())
-                .grantTypeName(referenceService.getGrantTypeName(grantType))
-                .lastRefreshDate(entity.getLastRefreshDate())
-                .startDate(entity.getStartDate())
-                .scopeNames(referenceService.getScopeNames(entity.getScopes()))
-                .clientName(client.getClientName())
-                .clientId(entity.getClientId())
-                .clientRedirectUri(entity.getRedirectUri())
-                .build();
+            .authorizationId(entity.getAuthorizationId())
+            .grantTypeName(referenceService.getGrantTypeName(grantType))
+            .lastRefreshDate(entity.getLastRefreshDate())
+            .startDate(entity.getStartDate())
+            .scopeNames(referenceService.getScopeNames(entity.getScopes()))
+            .clientName(client.getClientName())
+            .clientId(entity.getClientId())
+            .clientRedirectUri(entity.getRedirectUri())
+            .build();
     }
 
     @Override

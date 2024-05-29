@@ -15,7 +15,7 @@ import ru.dlabs.sas.example.jsso.dao.entity.SystemOauth2Client;
 @RequiredArgsConstructor
 public class DaoRegisteredClientRepository implements RegisteredClientRepository {
 
-    private final SystemOauth2ClientRepository systemOauth2ClientRepository;
+    private final SystemOAuth2ClientRepository systemOauth2ClientRepository;
 
     @Override
     @Transactional

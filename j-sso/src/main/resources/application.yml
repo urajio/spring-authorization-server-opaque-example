@@ -2,6 +2,8 @@ server:
   port: 7777
   error:
     include-stacktrace: always
+  servlet:
+    context-path:
 
 logging:
   level:

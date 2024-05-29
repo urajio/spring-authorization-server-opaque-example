@@ -21,8 +21,6 @@ import ru.dlabs.sas.example.jsso.service.security.IntrospectionService;
 @Configuration(proxyBeanMethods = false)
 public class AuthorizationServerConfig {
 
-    public final static String principalAttributeKey = "java.security.Principal";
-
     private final IntrospectionService introspectionService;
     private final AuthorizationServerProperties authorizationServerProperties;
 

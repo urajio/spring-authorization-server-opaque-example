@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.dlabs.sas.example.jsso.dao.entity.SystemOauth2Client;
-import ru.dlabs.sas.example.jsso.dao.repository.SystemOAuth2ClientsRepository;
+import ru.dlabs.sas.example.jsso.dao.repository.SystemOAuth2ClientRepository;
 import ru.dlabs.sas.example.jsso.dto.OAuth2ClientDto;
 import ru.dlabs.sas.example.jsso.dto.PageableResponseDto;
 import ru.dlabs.sas.example.jsso.exception.ServiceException;
@@ -48,7 +48,7 @@ import ru.dlabs.sas.example.jsso.utils.CryptoUtils;
 @RequiredArgsConstructor
 public class DefaultOAuth2ClientService implements OAuth2ClientService {
 
-    private final SystemOAuth2ClientsRepository systemOAuth2ClientsRepository;
+    private final SystemOAuth2ClientRepository systemOAuth2ClientsRepository;
     private final PasswordEncoder passwordEncoder;
     private final RestClient serviceRestClient;
     private final UserClientService userClientService;

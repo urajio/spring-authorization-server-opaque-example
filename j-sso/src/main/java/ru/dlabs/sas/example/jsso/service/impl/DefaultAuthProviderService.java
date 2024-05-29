@@ -168,6 +168,7 @@ public class DefaultAuthProviderService implements AuthProviderService {
             user.setEmail(email);
             user.setActive(true);
             user.setAdmin(false);
+            user.setSuperuser(false);
             // добавляем роль по умолчанию
             user.setRoles(List.of(roleRepository.getDefaultRole()));
         }

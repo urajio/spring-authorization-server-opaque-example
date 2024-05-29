@@ -114,6 +114,9 @@ public class DefaultAdminUserService implements AdminUserService {
     @Override
     @Transactional(readOnly = true)
     public ResponseEntity<byte[]> getAvatar(UUID avatarFileId) {
+        if (avatarFileId == null) {
+            return null;
+        }
         FileStoreDto fileStoreDto = fileStoreService.getById(avatarFileId);
         if (fileStoreDto == null) {
             return ResponseEntity.badRequest().build();

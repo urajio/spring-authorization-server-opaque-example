@@ -13,6 +13,8 @@ import ru.dlabs.sas.example.jsso.dao.entity.SystemOauth2Client;
  * @author Ivanov Danila
  * @since 1.0.0
  */
-public interface SystemOAuth2ClientsRepository
+public interface SystemOAuth2ClientRepository
         extends JpaRepository<SystemOauth2Client, String>, JpaSpecificationExecutor<SystemOauth2Client> {
+
+    SystemOauth2Client getByClientId(String clientId);
 }

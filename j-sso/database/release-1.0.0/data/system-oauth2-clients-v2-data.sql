@@ -21,3 +21,8 @@ FROM sso.system_oauth2_clients;
 UPDATE sso.system_oauth2_clients_v2
 SET scopes = '{SSO.USER_PROFILE_INFO,SSO.USER_AVATAR,SSO.USER_IDENTIFICATION,SSO.USER_AUTHORITIES}'
 WHERE client_id in ('test-client', 'swagger-client');
+
+--changeSet daivanov:system-oauth2-clients-v2-data-03
+UPDATE sso.system_oauth2_clients_v2
+SET authorization_grant_types = '{authorization_code,refresh_token,client_credentials}'
+WHERE client_id = 'test-client';

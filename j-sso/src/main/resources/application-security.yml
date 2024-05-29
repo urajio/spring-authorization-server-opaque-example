@@ -15,12 +15,12 @@ spring:
           github:
             clientId: ${JSSO_GITHUB_CLIENT_ID}
             clientSecret: ${JSSO_GITHUB_CLIENT_SECRET}
-            redirect-uri: http://localhost:7777/${server.servlet.context-path}/login/oauth2/code/github
+            redirect-uri: http://localhost:7777${server.servlet.context-path}/login/oauth2/code/github
 
           google:
             clientId: ${JSSO_GOOGLE_CLIENT_ID}
             clientSecret: ${JSSO_GOOGLE_CLIENT_SECRET}
-            redirect-uri: http://localhost:7777/${server.servlet.context-path}/login/oauth2/code/google
+            redirect-uri: http://localhost:7777${server.servlet.context-path}/login/oauth2/code/google
             scope:
               - email
               - profile
@@ -29,7 +29,7 @@ spring:
             provider: yandex
             clientId: ${JSSO_YANDEX_CLIENT_ID}
             clientSecret: ${JSSO_YANDEX_CLIENT_SECRET}
-            redirect-uri: http://localhost:7777/${server.servlet.context-path}/login/oauth2/code/yandex
+            redirect-uri: http://localhost:7777${server.servlet.context-path}/login/oauth2/code/yandex
             authorizationGrantType: authorization_code
             clientName: Yandex
 

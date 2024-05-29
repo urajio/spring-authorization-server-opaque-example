@@ -29,8 +29,8 @@ public class CustomOauthAuthenticationSuccessHandler extends SavedRequestAwareAu
     private final RequestCache requestCache = new HttpSessionRequestCache();
 
     public CustomOauthAuthenticationSuccessHandler(
-            String authSuccessUrl,
-            UserEventService eventService
+        String authSuccessUrl,
+        UserEventService eventService
     ) {
         this.eventService = eventService;
         this.setDefaultTargetUrl(authSuccessUrl);
@@ -39,12 +39,16 @@ public class CustomOauthAuthenticationSuccessHandler extends SavedRequestAwareAu
 
     @Override
     public void onAuthenticationSuccess(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            Authentication authentication
+        HttpServletRequest request,
+        HttpServletResponse response,
+        Authentication authentication
     ) throws ServletException, IOException {
         super.onAuthenticationSuccess(request, response, authentication);
         SavedRequest savedRequest = this.requestCache.getRequest(request, response);
+        if (savedRequest != null) {
+            this.requestCache.removeRequest(request, response);
+        }
+
         String clientId = HandlerUtils.getClientId(savedRequest);
         eventService.createEvent(UserEventType.USER_LOGIN, clientId, request);
     }
