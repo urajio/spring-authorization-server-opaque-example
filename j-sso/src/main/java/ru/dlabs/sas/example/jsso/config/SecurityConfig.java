@@ -1,6 +1,5 @@
 package ru.dlabs.sas.example.jsso.config;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,17 +12,21 @@ import ru.dlabs.sas.example.jsso.service.CustomUserDetailsService;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @EnableWebSecurity(debug = true)
-@RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
 public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomUserDetailsService userDetailService;
 
+    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService, CustomUserDetailsService userDetailService) {
+        this.customOAuth2UserService = customOAuth2UserService;
+        this.userDetailService = userDetailService;
+    }
+
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        SocialConfigurer socialConfigurer = new SocialConfigurer()
-                .oAuth2UserService(customOAuth2UserService);
+        SocialConfigurer socialConfigurer = new SocialConfigurer();
+        socialConfigurer.setoAuth2UserService(customOAuth2UserService);
         http.apply(socialConfigurer);
 
         http.getSharedObject(AuthenticationManagerBuilder.class)

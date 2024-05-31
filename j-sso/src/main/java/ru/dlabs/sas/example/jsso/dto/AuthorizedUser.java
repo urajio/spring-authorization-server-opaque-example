@@ -1,7 +1,5 @@
 package ru.dlabs.sas.example.jsso.dto;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -11,8 +9,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 
-@Getter
-@Setter
 public class AuthorizedUser extends User implements OAuth2User {
 
     private UUID id;
@@ -131,5 +127,61 @@ public class AuthorizedUser extends User implements OAuth2User {
         public AuthorizedUser build() {
             return this.entity;
         }
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public Map<String, Object> getOauthAttributes() {
+        return oauthAttributes;
+    }
+
+    public void setOauthAttributes(Map<String, Object> oauthAttributes) {
+        this.oauthAttributes = oauthAttributes;
     }
 }

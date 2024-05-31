@@ -36,13 +36,13 @@ public class UserRepository implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        this.save(UserEntity.builder()
-                .email("admin@example.com")
-                .passwordHash("{noop}admin@example.com")
-                .active(true)
-                .firstName("Admin")
-                .secondName("Admin")
-                .birthday(LocalDate.of(1998, 7, 14))
-                .build());
+        UserEntity entity = new UserEntity();
+        entity.setEmail("admin@example.com");
+        entity.setPasswordHash("{noop}admin@example.com");
+        entity.setActive(true);
+        entity.setFirstName("Admin");
+        entity.setSecondName("Admin");
+        entity.setBirthday(LocalDate.of(1998, 7, 14));
+        this.save(entity);
     }
 }

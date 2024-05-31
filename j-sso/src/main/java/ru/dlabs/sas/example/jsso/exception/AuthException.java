@@ -1,10 +1,8 @@
 package ru.dlabs.sas.example.jsso.exception;
 
-import lombok.Getter;
 import org.springframework.security.core.AuthenticationException;
 import ru.dlabs.sas.example.jsso.type.AuthErrorCode;
 
-@Getter
 public class AuthException extends AuthenticationException {
 
     private final AuthErrorCode errorCode;
@@ -22,5 +20,9 @@ public class AuthException extends AuthenticationException {
     public AuthException(AuthErrorCode errorCode) {
         super(null);
         this.errorCode = errorCode;
+    }
+
+    public AuthErrorCode getErrorCode() {
+        return errorCode;
     }
 }

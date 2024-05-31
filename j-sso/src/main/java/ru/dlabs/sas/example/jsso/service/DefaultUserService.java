@@ -1,6 +1,5 @@
 package ru.dlabs.sas.example.jsso.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
@@ -17,12 +16,15 @@ import java.time.format.DateTimeFormatter;
 
 
 @Service
-@RequiredArgsConstructor
 public class DefaultUserService implements UserService {
 
     @Value("${yandex-avatar-url}")
     private String yandexAvatarUrl;
     private final UserRepository userRepository;
+
+    public DefaultUserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     /**
      * Создание или обновление пользователя

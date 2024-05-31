@@ -1,7 +1,5 @@
 package ru.dlabs.sas.example.jsso.config;
 
-import lombok.Setter;
-import lombok.experimental.Accessors;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -11,8 +9,6 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
-@Setter
-@Accessors(chain = true, fluent = true)
 public class SocialConfigurer extends AbstractHttpConfigurer<SocialConfigurer, HttpSecurity> {
 
     private OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService;
@@ -32,5 +28,17 @@ public class SocialConfigurer extends AbstractHttpConfigurer<SocialConfigurer, H
                 oauth2Login.failureHandler(this.failureHandler);
             }
         });
+    }
+
+    public void setoAuth2UserService(OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService) {
+        this.oAuth2UserService = oAuth2UserService;
+    }
+
+    public void setFailureHandler(AuthenticationFailureHandler failureHandler) {
+        this.failureHandler = failureHandler;
+    }
+
+    public void setSuccessHandler(AuthenticationSuccessHandler successHandler) {
+        this.successHandler = successHandler;
     }
 }
