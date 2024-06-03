@@ -1,12 +1,6 @@
 server:
   port: 7777
 
-logging:
-  level:
-    root: DEBUG
-    javax.management: ERROR
-    org.springframework.security.web.FilterChainProxy: DEBUG
-
 spring:
   application:
     name: j-sso
