@@ -25,16 +25,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        SocialConfigurer socialConfigurer = new SocialConfigurer();
-        socialConfigurer.setoAuth2UserService(customOAuth2UserService);
-        http.apply(socialConfigurer);
-
+        http
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .userInfoEndpoint(customizer -> customizer.userService(customOAuth2UserService)))
+                .formLogin(withDefaults())
+                .authorizeHttpRequests(authorize -> authorize
+                        .anyRequest().authenticated());
         http.getSharedObject(AuthenticationManagerBuilder.class)
                 .userDetailsService(userDetailService);
-
-        http.authorizeHttpRequests(authorize ->
-                authorize.anyRequest().authenticated()
-        );
-        return http.formLogin(withDefaults()).build();
+        return http.build();
     }
 }
