@@ -1,3 +1,4 @@
+/*
 package ru.dlabs.sas.example.jsso.config;
 
 import org.slf4j.Logger;
@@ -33,3 +34,4 @@ public class CORSConfig {
         return bean;
     }
 }
+*/
