@@ -1,4 +1,4 @@
 
 //rootProject.name = 'spring-authorization-server-opaque-example'
-//include(':j-service')
+include(':j-service')
 include(':j-sso')
