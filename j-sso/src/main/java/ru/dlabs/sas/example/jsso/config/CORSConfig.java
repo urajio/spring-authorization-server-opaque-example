@@ -1,4 +1,3 @@
-/*
 package ru.dlabs.sas.example.jsso.config;
 
 import org.slf4j.Logger;
@@ -15,8 +14,11 @@ import org.springframework.web.filter.CorsFilter;
 public class CORSConfig {
     private final static Logger log = LoggerFactory.getLogger(CORSConfig.class);
 
+    /*
+     * Похоже что не стартует
+     */
     @Bean
-    public FilterRegistrationBean<CorsFilter> corsFilter() {
+    public FilterRegistrationBean<CorsFilter> corsFilterRegistration() {
         log.debug("CREATE CORS FILTER");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
@@ -27,6 +29,7 @@ public class CORSConfig {
         config.addAllowedHeader(CorsConfiguration.ALL);
         config.addExposedHeader(CorsConfiguration.ALL);
         config.addAllowedMethod(CorsConfiguration.ALL);
+        log.debug("Configured allowed origins: {}", config.getAllowedOrigins());
 
         source.registerCorsConfiguration("/**", config);
         FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
@@ -34,4 +37,3 @@ public class CORSConfig {
         return bean;
     }
 }
-*/
